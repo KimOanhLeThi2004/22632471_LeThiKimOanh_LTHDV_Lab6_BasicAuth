@@ -1,45 +1,40 @@
-# Lab 1 - Basic Authentication
+# Lab 1 - Basic Authentication & Cookie Authentication
 
-This repository is part of **LAB 6 - Security in NodeJS**.  
-It demonstrates **Basic Authentication** using hardcoded credentials.
-
----
+This repository is part of LAB 6 - Security in NodeJS. It demonstrates two parts: (a) Basic Authentication using hardcoded credentials and (b) Cookie Authentication with MongoDB to store and validate cookie tokens.
 
 ## How to Run
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-2. Start the server:
-   ```bash
-   node basic_auth.js
-   ```
-3. Server will run at:
-   ```
-   http://localhost:3000
-   ```
 
----
+### (a) BasicAuth
+Install dependencies with `npm install`. Run the server using `node basic_auth.js`. The server will start at `http://localhost:3000`.
+
+### (b) CookieAuth
+Install dependencies with `npm install`. Run the server using `node cookie_auth.js`. The server will start at `http://localhost:3001`.
 
 ## Routes
-- `GET /` → Public route  
-- `GET /public` → Public route  
-- `GET /secure` → Protected route (requires Basic Auth)
 
----
+### (a) BasicAuth
+Available routes are:
+- `GET /` → public route
+- `GET /public` → public route
+- `GET /secure` → protected route requiring Basic Auth
 
-## Default Credentials
-- Username: `admin`  
+Default credentials are:
+- Username: `admin`
 - Password: `12345`
 
----
+### (b) CookieAuth
+Available routes are:
+- `POST /login` → login with username and password, set cookie `auth_cookie_token`, and save it in MongoDB
+- `GET /profile` → protected route, requires valid cookie
+- `POST /logout` → logout, delete cookie from DB and client
 
-## Test with Postman
-1. Public:
-   - GET `http://localhost:3000/`  
-   - GET `http://localhost:3000/public`
-2. Secure:
-   - GET `http://localhost:3000/secure`  
-   - In Postman → tab **Authorization** → Basic Auth → enter username/password.
+## Testing with Postman
 
----
+### (a) BasicAuth
+1. Test `GET http://localhost:3000/` and `GET http://localhost:3000/public` → both return success without authentication.  
+2. Test `GET http://localhost:3000/secure` → requires Basic Auth. In Postman, go to Authorization tab, select Basic Auth, enter username `admin` and password `12345`.
+
+### (b) CookieAuth
+1. Login with `POST http://localhost:3001/login`, body JSON:
+```json
+{ "username": "admin", "password": "12345" }
